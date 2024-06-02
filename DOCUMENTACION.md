@@ -38,7 +38,7 @@ El algoritmo C4.5 puede manejar tanto atributos categóricos como continuos. Par
 
 Estas funcionalidades están implementadas en la clase `C45`.
 
-#### 2. Gain Ratio
+#### 2. Criterio de división
 El criterio de división del C4.5 utiliza una métrica llamada Gain Ratio, que corrige la tendencia de la ganancia de información a favorecer atributos con muchos valores posibles.
 
 - **Cálculo del Split Info:** Mide la dispersión de los valores del atributo en el conjunto de datos.
