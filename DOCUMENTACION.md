@@ -1,4 +1,5 @@
-Informe del Proyecto: Librería de Modelos Predictivos con Árboles de Decisión y Bosques Aleatorios
+Proyecto: Librería de Modelos Predictivos con Árboles de Decisión y Bosques Aleatorios
+
 Enunciado del Problema
 
 Se desea construir una librería que permita desarrollar modelos predictivos mediante una versión simplificada del ensamble RandomForest. El objetivo principal es entrenar un modelo con un conjunto de datos etiquetados, utilizando técnicas de aprendizaje supervisado, para luego predecir la variable objetivo. Nos enfocamos principalmente en problemas de clasificación, con posibilidad de extender la funcionalidad a problemas de regresión en el futuro.
@@ -59,6 +60,7 @@ Para ejecutar el proyecto, sigue estos pasos:
 Conclusión
 
 Este proyecto proporciona una implementación básica pero funcional de un clasificador basado en árboles de decisión y bosques aleatorios, utilizando el algoritmo C4.5. La modularidad del código permite futuras extensiones, como el soporte para problemas de regresión y la inclusión de más hiperparámetros configurables. Este enfoque asegura que la librería sea flexible y escalable, adaptándose a diversas necesidades de predicción en el campo del aprendizaje automático.
+
 Referencias
 
 [1] Breiman, L. (2001). Random Forests. Machine Learning, 45(1), 5-32.
