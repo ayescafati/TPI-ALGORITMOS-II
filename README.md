@@ -38,6 +38,12 @@ Este proyecto implementa un clasificador de árbol de decisión y un bosque alea
 - `lector_datos.py`: Funciones para cargar los datos desde archivos CSV.
 - `impresora_arboles.py`: Funciones para imprimir los árboles de decisión y los árboles individuales del bosque aleatorio.
 
+## Integrantes
+
+- Ayelén Luján Scafati
+- Bautista Turri
+- Federico Llanes
+  
 ## Licencia
 
 Este proyecto está licenciado bajo los términos de la Licencia MIT. 
