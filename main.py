@@ -3,14 +3,17 @@ from random_forest import RandomForests
 from lectora_datos import cargar_datos
 from impresora_arboles import ImpresoraArboles
 import pandas as pd
-
+import os
 
 def cargar_datos(ruta: str) -> pd.DataFrame:
     return pd.read_csv(ruta)
 
 if __name__ == "__main__":
-    ruta_datos_entrenamiento = "/Users/ayelenscafati/Desktop/LCD/2024/Algoritmos II/GuiaArboles/ElRandomForest/playgolf_data.csv"
-    ruta_datos_prueba = "/Users/ayelenscafati/Desktop/LCD/2024/Algoritmos II/GuiaArboles/ElRandomForest/playgolf_test.csv"
+
+    directorio_actual = os.path.dirname(os.path.abspath(__file__))
+    
+    ruta_datos_entrenamiento = os.path.join(directorio_actual, "playgolf_data.csv")
+    ruta_datos_prueba = os.path.join(directorio_actual, "playgolf_test.csv")
 
     # Cargar datos
     datos_entrenamiento = cargar_datos(ruta_datos_entrenamiento)
@@ -20,7 +23,7 @@ if __name__ == "__main__":
     clasificador = ClasificadorArbolDecision(datos_entrenamiento)
     clasificador.ajustar()
 
-   # print("\nEl árbol de decisión resultante es:")
+    # print("\nEl árbol de decisión resultante es:")
     clasificador.imprimir_arbol()
 
     # Predecir con el árbol de decisión
