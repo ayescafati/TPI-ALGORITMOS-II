@@ -3,6 +3,15 @@ import math
 from collections import Counter
 from typing import List, Any, Optional
 
+
+class DecisionNode:
+    def __init__(self, columna: int = -1, valor: Any = None, resultados: Optional[dict] = None, verdadero: Optional['DecisionNode'] = None, falso: Optional['DecisionNode'] = None):
+        self.columna = columna
+        self.valor = valor
+        self.resultados = resultados
+        self.verdadero = verdadero
+        self.falso = falso
+
 class C45:
     def __init__(self, filas: List[List[Any]]) -> None:
         self.filas = filas
@@ -133,3 +142,67 @@ class C45:
                 pesos_falso.append(pesos[i])
 
         return conjunto_verdadero, conjunto_falso, pesos_verdadero, pesos_falso
+    
+
+
+    # Inicio Manejar valores faltantes #
+
+    def manejar_valores_faltantes(self, filas: List[List[Any]], estrategia: str = 'comun') -> List[List[Any]]:
+        if estrategia == 'comun':
+            for col in range(len(filas[0]) - 1):
+                valores = [fila[col] for fila in filas if fila[col] is not None]
+                valor_comun = max(set(valores), key=valores.count)
+                for fila in filas:
+                    if fila[col] is None:
+                        fila[col] = valor_comun
+        elif estrategia == 'comun_clase':
+            clases = self.conteosUnicos(filas).keys()
+            for clase in clases:
+                filas_clase = [fila for fila in filas if fila[-1] == clase]
+                for col in range(len(filas[0]) - 1):
+                    valores = [fila[col] for fila in filas_clase if fila[col] is not None]
+                    if valores:
+                        valor_comun = max(set(valores), key=valores.count)
+                        for fila in filas_clase:
+                            if fila[col] is None:
+                                fila[col] = valor_comun
+        elif estrategia == 'probabilidad':
+            for col in range(len(filas[0]) - 1):
+                valores = [fila[col] for fila in filas if fila[col] is not None]
+                conteo_valores = Counter(valores)
+                total = sum(conteo_valores.values())
+                probabilidades = {k: v / total for k, v in conteo_valores.items()}
+                for fila in filas:
+                    if fila[col] is None:
+                        fila[col] = max(probabilidades, key=probabilidades.get)
+        return filas
+
+    def entrenar(self, estrategia: str = 'comun') -> None:
+        self.filas = self.manejar_valores_faltantes(self.filas, estrategia)
+
+    def clasificar(self, observacion: List[Any], arbol: Optional[DecisionNode] = None) -> dict:
+        if arbol is None:
+            arbol = self.arbol
+
+        if arbol.resultados is not None:
+            return arbol.resultados
+
+        v = observacion[arbol.columna]
+        rama = None
+        if v is None:
+            # Asignar la probabilidad basada en frecuencias observadas en el nodo actual
+             rama = arbol.verdadero if len(arbol.verdadero.resultados) > len(arbol.falso.resultados) else arbol.falso
+        else:
+            if isinstance(v, int) or isinstance(v, float):
+                if v >= arbol.valor:
+                     rama = arbol.verdadero
+                else:
+                     rama = arbol.falso
+            else:
+                if v == arbol.valor:
+                     rama = arbol.verdadero
+                else:
+                     rama = arbol.falso
+        return self.clasificar(observacion,  rama)
+    
+    # Fin Manejar valores faltantes #

@@ -4,16 +4,12 @@
 # tiene la función predecir(), que se encarga de predecir un conjunto de datos de prueba
 # usando los arboles de decisión creados. Además, tiene la función imprimir_arboles_forest()
 # que imprime los arboles de decisión creados.
-# Falta la poda!!!!!!!!! (IMPORTANTE)
 
 import random
 import pandas as pd
 from collections import Counter
 from clasificadora_arbol_decision import ClasificadorArbolDecision
 from impresora_arboles import ImpresoraArboles
-
-
-
 
 class RandomForests:
     def __init__(self, numero_arboles=10, profundidad_max=None, min_instancias=1):

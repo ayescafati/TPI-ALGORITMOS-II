@@ -5,6 +5,7 @@ from impresora_arboles import ImpresoraArboles
 import pandas as pd
 import os
 
+
 def cargar_datos(ruta: str) -> pd.DataFrame:
     return pd.read_csv(ruta)
 
@@ -21,9 +22,10 @@ if __name__ == "__main__":
 
     # Crear y ajustar el árbol de decisión usando C4.5
     clasificador = ClasificadorArbolDecision(datos_entrenamiento)
-    clasificador.ajustar()
+    clasificador.ajustar(estrategia = 'comun')  # Ajustar con la estrategia deseada ('comun', 'comun_clase' o 'probabilidad')
 
-    # print("\nEl árbol de decisión resultante es:")
+    # Imprimir el árbol de decisión resultante
+    print("\nEl árbol de decisión resultante es:")
     clasificador.imprimir_arbol()
 
     # Predecir con el árbol de decisión
