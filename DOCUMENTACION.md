@@ -49,6 +49,23 @@ El algoritmo C4.5 es una mejora del ID3 que introduce varias características ad
 4. **Poda del Árbol**: Función para podar el árbol de decisión. Esta funcionalidad elimina subárboles que no contribuyen significativamente a la precisión del modelo, lo cual ayuda a reducir el sobreajuste (overfiting) del modelo..
 5. **Manejo de Costos Asimétricos**: Permite incluir costos asimétricos asociados con diferentes tipos de errores de clasificación al evaluar la precisión del modelo.
 6. **Clasificación con Datos Ponderados**: Permite clasificar conjuntos de datos que tienen diferentes pesos, lo que hace que podamos tratar de manera más efectiva los conjuntos de datos desbalanceados.
+7. ## Manejo de Valores Faltantes 
+
+En este proyecto hemos implementado diversas estrategias para manejar valores faltantes en los datos de entrenamiento utilizando el algoritmo C4.5.
+
+1. **Asignar el valor más común entre los datos de entrenamiento**:
+   - Implementamos esta estrategia en el método `manejar_valores_faltantes` cuando se utiliza el argumento `estrategia='comun'`.
+   - En este enfoque, recorremos cada columna que tenga valores faltantes y asignamos el valor más común entre los valores existentes en esa columna.
+
+2. **Asignar el valor más común entre los datos de entrenamiento que tienen la misma clasificación**:
+   - Esta estrategia se implementa en `estrategia='comun_clase'` dentro del método `manejar_valores_faltantes`.
+   - Agrupamos las filas por clase y luego procedemos a reemplazar los valores faltantes en cada columna con el valor más común de esa clase.
+
+3. **Asignar una probabilidad basada en frecuencias observadas en valores de A en el nodo actual**:
+   - Para esta estrategia, que se implementa en `estrategia='probabilidad'` en el método `manejar_valores_faltantes`, calculamos las probabilidades de cada valor observado en la columna con valores faltantes y reemplazamos los valores faltantes con el valor que tiene la mayor probabilidad en esa columna.
+
+Estas estrategias son fundamentales para manejar los valores faltantes de manera efectiva durante el proceso de entrenamiento del árbol de decisión, lo que mejora la capacidad del modelo para generalizar correctamente a nuevos datos que puedan contener valores faltantes.
+
 
 ## Random Forest
 
