@@ -34,7 +34,8 @@ El algoritmo C4.5 es una mejora del ID3 que introduce varias características ad
     - **Selección de Umbrales**: Se consideran los puntos medios entre cada par de valores consecutivos como posibles umbrales para dividir el atributo.
     - **Cálculo de la Ganancia de Información**: Para cada posible umbral, se calcula la ganancia de información resultante de dividir el conjunto de datos en dos grupos basados en ese umbral.
     - **Selección del Mejor Umbral**: El umbral que produce la mayor ganancia de información se selecciona como el umbral óptimo para dividir el atributo continuo.
-
+    - **División del conjunto de datos**: Si la ganancia de información del atributo con el umbral óptimo es mayor que el resto de los atributos, se selecciona esta discretización como nodo divisor del árbol y continúa el proceso de construcción recursivo.
+      
     Estas funcionalidades están implementadas en la clase `C45`.
 
 2. **Criterio de División**: El criterio de división del C4.5 utiliza una métrica llamada Gain Ratio, que corrige la tendencia de la ganancia de información a favorecer atributos con muchos valores posibles.
