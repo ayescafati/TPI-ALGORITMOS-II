@@ -2,7 +2,7 @@
 
 ## Enunciado del Problema
 
-El objetivo de este proyecto es desarrollar una librería que permita crear modelos predictivos mediante una versión simplificada del ensamble RandomForest. Se busca entrenar un modelo con un conjunto de datos etiquetados, utilizando técnicas de aprendizaje supervisado, para predecir la variable objetivo. Inicialmente, nos enfocaremos en problemas de clasificación, con la posibilidad de extender la funcionalidad a problemas de regresión en el futuro.
+El objetivo de este proyecto es desarrollar una librería que nos permita crear modelos predictivos mediante una versión simplificada del ensamble RandomForest. Buscamos entrenar un modelo con un conjunto de datos etiquetados, utilizando técnicas de aprendizaje supervisado, para predecir la variable objetivo. Inicialmente, nos enfocaremos en problemas de clasificación, con la posibilidad de extender la funcionalidad a problemas de regresión en el futuro.
 
 ## Introducción
 
@@ -12,16 +12,16 @@ Este proyecto implementa un clasificador basado en árboles de decisión y un bo
 
 ### Definición
 
-Los árboles de decisión son modelos de aprendizaje automático utilizados para tareas de clasificación y regresión. Cada nodo interno del árbol representa una pregunta sobre una característica, cada rama representa el resultado de esa pregunta, y cada nodo hoja representa una clasificación o valor de predicción.
+Los árboles de decisión son modelos de aprendizaje automático que utilizamos para tareas de clasificación y regresión. Cada nodo interno del árbol representa una pregunta sobre una característica, cada rama representa el resultado de esa pregunta, y cada nodo hoja representa una clasificación o valor de predicción.
 
 ### Algoritmo ID3
 
-El algoritmo ID3 es una metodología para construir árboles de decisión mediante los siguientes pasos:
+El algoritmo ID3 es una metodología que seguimos para construir árboles de decisión mediante los siguientes pasos:
 
-1. **Selección del Atributo**: Utiliza la entropía y la ganancia de información para seleccionar el atributo que mejor clasifica los datos en cada nivel del árbol.
-2. **División del Conjunto de Datos**: Divide el conjunto de datos en subconjuntos basados en los valores del atributo seleccionado.
-3. **Construcción Recursiva del Árbol**: Repite los pasos anteriores hasta que se cumple un criterio de parada, como alcanzar nodos puros o una profundidad máxima del árbol.
-4. **Poda del Árbol**: Elimina subárboles que no contribuyen significativamente a la precisión del modelo para evitar el sobreajuste.
+1. **Selección del Atributo**: Utilizamos la entropía y la ganancia de información para seleccionar el atributo que mejor clasifica los datos en cada nivel del árbol.
+2. **División del Conjunto de Datos**: Dividimos el conjunto de datos en subconjuntos basados en los valores del atributo seleccionado.
+3. **Construcción Recursiva del Árbol**: Repetimos los pasos anteriores hasta que se cumple un criterio de parada, como alcanzar nodos puros o una profundidad máxima del árbol.
+4. **Poda del Árbol**: Eliminamos subárboles que no contribuyen significativamente a la precisión del modelo para evitar el sobreajuste.
 
 ### Algoritmo C4.5
 
@@ -29,37 +29,37 @@ El algoritmo C4.5 es una mejora del ID3 que introduce varias características ad
 
 ### Características Implementadas
 
-1. **Atributos Continuos**: El algoritmo C4.5 puede manejar tanto atributos categóricos como continuos. Para los atributos continuos, se busca el umbral que maximiza la ganancia de información, dividiendo así el atributo en un conjunto de valores discretos.
-   - **Ordenamiento de Valores**: Los valores únicos de un atributo continuo se ordenan en orden ascendente.
-   - **Selección de Umbrales**: Se consideran los puntos medios entre cada par de valores consecutivos como posibles umbrales para dividir el atributo.
-   - **Cálculo de la Ganancia de Información**: Para cada posible umbral, se calcula la ganancia de información resultante de dividir el conjunto de datos en dos grupos basados en ese umbral. Esto está implementado en el método `mejorUmbral` de la clase `C45`.
+1. **Atributos Continuos**: El algoritmo C4.5 puede manejar tanto atributos categóricos como continuos. Para los atributos continuos, buscamos el umbral que maximiza la ganancia de información, dividiendo así el atributo en un conjunto de valores discretos.
+   - **Ordenamiento de Valores**: Ordenamos los valores únicos de un atributo continuo en orden ascendente.
+   - **Selección de Umbrales**: Consideramos los puntos medios entre cada par de valores consecutivos como posibles umbrales para dividir el atributo.
+   - **Cálculo de la Ganancia de Información**: Para cada posible umbral, calculamos la ganancia de información resultante de dividir el conjunto de datos en dos grupos basados en ese umbral. Esto está implementado en el método `mejorUmbral` de la clase `C45`.
    - **Selección del Mejor Umbral**: El umbral que produce la mayor ganancia de información se selecciona como el umbral óptimo para dividir el atributo continuo.
-   - **División del conjunto de datos**: Si la ganancia de información del atributo con el umbral óptimo es mayor que el resto de los atributos, se selecciona esta discretización como nodo divisor del árbol y continúa el proceso de construcción recursivo.
+   - **División del Conjunto de Datos**: Si la ganancia de información del atributo con el umbral óptimo es mayor que el resto de los atributos, seleccionamos esta discretización como nodo divisor del árbol y continuamos el proceso de construcción recursivo.
 
 2. **Criterio de División**: El criterio de división del C4.5 utiliza una métrica llamada Gain Ratio, que corrige la tendencia de la ganancia de información a favorecer atributos con muchos valores posibles.
-   - **Cálculo del Split Info**: Mide la dispersión de los valores del atributo en el conjunto de datos. Esto está implementado en el método `calcularSplitInfo` de la clase `C45`.
-   - **Cálculo del Gain Ratio**: Utiliza la ganancia de información y el split info para calcular el gain ratio. Esto está implementado en el método `gainRatio` de la clase `C45`.
+   - **Cálculo del Split Info**: Medimos la dispersión de los valores del atributo en el conjunto de datos. Esto está implementado en el método `calcularSplitInfo` de la clase `C45`.
+   - **Cálculo del Gain Ratio**: Utilizamos la ganancia de información y el split info para calcular el gain ratio. Esto está implementado en el método `gainRatio` de la clase `C45`.
 
-3. **Entropía**: Se calcula la entropía del conjunto de datos para medir la incertidumbre de la variable objetivo. Esto se realiza en el método `entropia` de la clase `C45`.
+3. **Entropía**: Calculamos la entropía del conjunto de datos para medir la incertidumbre de la variable objetivo. Esto se realiza en el método `entropia` de la clase `C45`.
 
-4. **Poda del Árbol**: Función para podar el árbol de decisión. Esta funcionalidad elimina subárboles que no contribuyen significativamente a la precisión del modelo, lo cual ayuda a reducir el sobreajuste del modelo. Esto está implementado en el método `podarArbol` de la clase `C45`.
+4. **Poda del Árbol**: Implementamos una función para podar el árbol de decisión. Esta funcionalidad elimina subárboles que no contribuyen significativamente a la precisión del modelo, lo cual ayuda a reducir el sobreajuste del modelo. Esto está implementado en el método `podarArbol` de la clase `C45`.
 
-5. **Manejo de Costos Asimétricos**: Permite incluir costos asimétricos asociados con diferentes tipos de errores de clasificación al evaluar la precisión del modelo. Esto se maneja en el método `evaluarPrecision` de la clase `C45`.
+5. **Manejo de Costos Asimétricos**: Permitimos incluir costos asimétricos asociados con diferentes tipos de errores de clasificación al evaluar la precisión del modelo. Esto se maneja en el método `evaluarPrecision` de la clase `C45`.
 
-6. **Clasificación con Datos Ponderados**: Permite clasificar conjuntos de datos que tienen diferentes pesos, lo que hace que podamos tratar de manera más efectiva los conjuntos de datos desbalanceados. Esto se maneja en el método `dividirConjuntoConPesos` de la clase `C45`.
+6. **Clasificación con Datos Ponderados**: Permitimos clasificar conjuntos de datos que tienen diferentes pesos, lo que hace que podamos tratar de manera más efectiva los conjuntos de datos desbalanceados. Esto se maneja en el método `dividirConjuntoConPesos` de la clase `C45`.
 
 7. **Manejo de Valores Faltantes**: En este proyecto hemos implementado diversas estrategias para manejar valores faltantes en los datos de entrenamiento utilizando el algoritmo C4.5. Las detallamos a continuación:
 
-1. **Asignar el valor más común entre los datos de entrenamiento**:
-   - Implementamos esta estrategia en el método `manejar_valores_faltantes` cuando se utiliza el argumento `estrategia='comun'`.
-   - En este enfoque, recorremos cada columna que tenga valores faltantes y asignamos el valor más común entre los valores existentes en esa columna.
+   1. **Asignar el valor más común entre los datos de entrenamiento**:
+      - Implementamos esta estrategia en el método `manejar_valores_faltantes` cuando se utiliza el argumento `estrategia='comun'`.
+      - En este enfoque, recorremos cada columna que tenga valores faltantes y asignamos el valor más común entre los valores existentes en esa columna.
 
-2. **Asignar el valor más común entre los datos de entrenamiento que tienen la misma clasificación**:
-   - Esta estrategia se implementa en `estrategia='comun_clase'` dentro del método `manejar_valores_faltantes`.
-   - Agrupamos las filas por clase y luego procedemos a reemplazar los valores faltantes en cada columna con el valor más común de esa clase.
+   2. **Asignar el valor más común entre los datos de entrenamiento que tienen la misma clasificación**:
+      - Esta estrategia se implementa en `estrategia='comun_clase'` dentro del método `manejar_valores_faltantes`.
+      - Agrupamos las filas por clase y luego procedemos a reemplazar los valores faltantes en cada columna con el valor más común de esa clase.
 
-3. **Asignar una probabilidad basada en frecuencias observadas en valores de A en el nodo actual**:
-   - Para esta estrategia, que se implementa en `estrategia='probabilidad'` en el método `manejar_valores_faltantes`, calculamos las probabilidades de cada valor observado en la columna con valores faltantes y reemplazamos los valores faltantes con el valor que tiene la mayor probabilidad en esa columna.
+   3. **Asignar una probabilidad basada en frecuencias observadas en valores de A en el nodo actual**:
+      - Para esta estrategia, que se implementa en `estrategia='probabilidad'` en el método `manejar_valores_faltantes`, calculamos las probabilidades de cada valor observado en la columna con valores faltantes y reemplazamos los valores faltantes con el valor que tiene la mayor probabilidad en esa columna.
 
 Estas estrategias son fundamentales para manejar los valores faltantes de manera efectiva durante el proceso de entrenamiento del árbol de decisión, lo que mejora la capacidad del modelo para generalizar correctamente a nuevos datos que puedan contener valores faltantes.
 
@@ -71,9 +71,9 @@ Random Forest es una técnica de ensamble que utiliza múltiples árboles de dec
 
 ### Construcción del Bosque
 
-1. **Bootstrapping**: Realiza un muestreo con reemplazo del conjunto de datos de entrenamiento para cada árbol. Esto se implementa en el método `ajustar` de la clase `RandomForests`.
-2. **Selección Aleatoria de Características**: En cada división del árbol, se considera un subconjunto aleatorio de características. Esta característica es inherente al uso del algoritmo C4.5 en la construcción de cada árbol en el bosque.
-3. **Combinación de Predicciones**: Combina las predicciones de todos los árboles del bosque para obtener la predicción final. Esto se implementa en el método `predecir` de la clase `RandomForests`.
+1. **Bootstrapping**: Realizamos un muestreo con reemplazo del conjunto de datos de entrenamiento para cada árbol. Esto se implementa en el método `ajustar` de la clase `RandomForests`.
+2. **Selección Aleatoria de Características**: En cada división del árbol, consideramos un subconjunto aleatorio de características. Esta característica es inherente al uso del algoritmo C4.5 en la construcción de cada árbol en el bosque.
+3. **Combinación de Predicciones**: Combinamos las predicciones de todos los árboles del bosque para obtener la predicción final. Esto se implementa en el método `predecir` de la clase `RandomForests`.
 
 ## Implementación
 
