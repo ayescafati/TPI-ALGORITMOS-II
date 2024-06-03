@@ -1,4 +1,3 @@
-
 import pandas as pd
 from c45 import C45
 from impresora_arboles import ImpresoraArboles
@@ -21,9 +20,9 @@ class ClasificadorArbolDecision:
         self.c45 = C45(self.df.values.tolist())
 
     def ajustar(self):
-        self.arbol = self.crearArbolDecisionDesde(self.df.values.tolist())
+        self.arbol = self.crearArbolDecision(self.df.values.tolist())
 
-    def crearArbolDecisionDesde(self, filas, profundidad=0):
+    def crearArbolDecision(self, filas, profundidad=0):
         if not filas:
             return None
 
@@ -49,8 +48,8 @@ class ClasificadorArbolDecision:
                     best_sets = (set1, set2)
 
         if best_gain > 0 and (self.profundidad_max is None or profundidad < self.profundidad_max):
-            true_branch = self.crearArbolDecisionDesde(best_sets[0], profundidad + 1)
-            false_branch = self.crearArbolDecisionDesde(best_sets[1], profundidad + 1)
+            true_branch = self.crearArbolDecision(best_sets[0], profundidad + 1)
+            false_branch = self.crearArbolDecision(best_sets[1], profundidad + 1)
             return {"columna": best_attribute[0], "valor": best_attribute[1], "ramas": [true_branch, false_branch]}
         else:
             return {"hoja": self.c45.conteosUnicos(filas)}
@@ -96,3 +95,36 @@ class ClasificadorArbolDecision:
             return self.clasificar(instancia, arbol["ramas"][0])
         else:
             return self.clasificar(instancia, arbol["ramas"][1])
+
+    # Métodos adicionales para podado de árboles y costos asimétricos
+
+    def podarArbol(self, arbol, datos_validacion):
+        if not isinstance(arbol, dict):
+            return arbol
+
+        atributo = list(arbol.keys())[0]
+        subarboles = arbol[atributo]
+        atributo_valor = datos_validacion[0][atributo]
+
+        if atributo_valor not in subarboles:
+            return arbol
+
+        subarbol = subarboles[atributo_valor]
+        subarbol_poda = self.podarArbol(subarbol, datos_validacion[1:])
+
+        if self.evaluarPrecision(subarbol_poda, datos_validacion) >= self.evaluarPrecision(arbol, datos_validacion):
+            return subarbol_poda
+        else:
+            return arbol
+
+    def evaluarPrecision(self, arbol, datos_validacion, costos=None):
+        total = len(datos_validacion)
+        correctos = 0
+        for fila in datos_validacion:
+            prediccion = self.clasificar(fila, arbol)
+            if prediccion == fila[-1]:
+                correctos += 1
+            elif costos:
+                costo_error = costos.get((fila[-1], prediccion), 1)
+                correctos += 1 / costo_error
+        return correctos / total

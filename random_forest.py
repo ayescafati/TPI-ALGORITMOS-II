@@ -12,46 +12,47 @@ from collections import Counter
 from clasificadora_arbol_decision import ClasificadorArbolDecision
 from impresora_arboles import ImpresoraArboles
 
+
+
+
 class RandomForests:
-    def __init__(self, numero_arboles = 10,  max_atributos = None): # agregamos el parametro max_atributos para poder setear la cant de atributos a usar
+    def __init__(self, numero_arboles=10, profundidad_max=None, min_instancias=1):
         self.numero_arboles = numero_arboles
-        self.arboles = [ ]
-        self.max_atributos = max_atributos
+        self.profundidad_max = profundidad_max
+        self.min_instancias = min_instancias
+        self.arboles = []
 
     def ajustar(self, datos):
-        for i in range(self.numero_arboles):
-            subconjunto_indices = [random.randint(0, len(datos) - 1) for _ in range(len(datos))]
+        if isinstance(datos, list):
+            datos = pd.DataFrame(datos)
+            
+        for _ in range(self.numero_arboles):
+            # Crear un subconjunto de datos con reemplazo
+            subconjunto_indices = random.choices(datos.index, k=len(datos))
             subconjunto = datos.iloc[subconjunto_indices]
-            nombres_atributos = list(subconjunto.columns)
-            nombres_atributos.remove(subconjunto.columns[-1])
-            if self.max_atributos:
-                nombres_atributos = random.sample(nombres_atributos, self.max_atributos)
-            arbol = ClasificadorArbolDecision(subconjunto[nombres_atributos + [subconjunto.columns[-1]]])
+
+            # Crear un clasificador de árbol de decisión para el subconjunto
+            arbol = ClasificadorArbolDecision(subconjunto, 
+                                              profundidad_max=self.profundidad_max, 
+                                              min_instancias=self.min_instancias)
             arbol.ajustar()
             self.arboles.append(arbol)
-        
-  #  def ajustar(self, datos):     for i in range(self.numero_arboles):
-  #          subconjunto_indices = [random.randint(0, len(datos) - 1) for _ in range(len(datos))]
-  #          subconjunto = [datos[j] for j in subconjunto_indices]
-  #          nombres_atributos = list(datos.columns)
-  #          nombres_atributos.remove(datos.columns[-1])
-  #          if self.max_atributos:
-  #              nombres_atributos = random.sample(nombres_atributos, self.max_atributos)
-  #          subconjunto = [[fila[k] for k in nombres_atributos] + [fila[-1]] for fila in subconjunto]
-  #          arbol = ClasificadorArbolDecision(subconjunto)
-  #          arbol.ajustar()
-  #          self.arboles.append(arbol)
-
 
     def predecir(self, datos_prueba):
+        if isinstance(datos_prueba, list):
+            datos_prueba = pd.DataFrame(datos_prueba)
+            
         predicciones = []
+
         for arbol in self.arboles:
-            predicciones.append(arbol.predecir(datos_prueba)['Prediccion'])
+            predicciones_arbol = arbol.predecir(datos_prueba)['Prediccion']
+            predicciones.append(predicciones_arbol)
 
-        predicciones_transpuestas = list(zip(*predicciones))
-        predicciones_finales = [Counter(prediccion).most_common(1)[0][0] for prediccion in predicciones_transpuestas]
+        # Transponer la lista de listas para hacer el voto mayoritario
+        predicciones = list(zip(*predicciones))
+        predicciones_finales = [max(set(p), key=p.count) for p in predicciones]
+        
         return predicciones_finales
-
 
     def imprimir_arboles_forest(self):
         impresora = ImpresoraArboles()
