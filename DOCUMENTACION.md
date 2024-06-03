@@ -48,9 +48,7 @@ El algoritmo C4.5 es una mejora del ID3 que introduce varias características ad
 
 6. **Clasificación con Datos Ponderados**: Permite clasificar conjuntos de datos que tienen diferentes pesos, lo que hace que podamos tratar de manera más efectiva los conjuntos de datos desbalanceados. Esto se maneja en el método `dividirConjuntoConPesos` de la clase `C45`.
 
-## Manejo de Valores Faltantes
-
-En este proyecto hemos implementado diversas estrategias para manejar valores faltantes en los datos de entrenamiento utilizando el algoritmo C4.5.
+7. **Manejo de Valores Faltantes**: En este proyecto hemos implementado diversas estrategias para manejar valores faltantes en los datos de entrenamiento utilizando el algoritmo C4.5. Las detallamos a continuación:
 
 1. **Asignar el valor más común entre los datos de entrenamiento**:
    - Implementamos esta estrategia en el método `manejar_valores_faltantes` cuando se utiliza el argumento `estrategia='comun'`.
