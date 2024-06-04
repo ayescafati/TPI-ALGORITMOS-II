@@ -4,6 +4,7 @@ from lectora_datos import cargar_datos
 from impresora_arboles import ImpresoraArboles
 import pandas as pd
 import os
+from sklearn.metrics import precision_score, recall_score, f1_score
 
 
 def cargar_datos(ruta: str) -> pd.DataFrame:
@@ -25,7 +26,7 @@ if __name__ == "__main__":
     clasificador.ajustar(estrategia = 'comun')  # Ajustar con la estrategia deseada ('comun', 'comun_clase' o 'probabilidad')
 
     # Imprimir el árbol de decisión resultante
-    print("\nEl árbol de decisión resultante es:")
+  #  print("\nEl árbol de decisión resultante es:")
     clasificador.imprimir_arbol()
 
     # Predecir con el árbol de decisión
@@ -47,3 +48,18 @@ if __name__ == "__main__":
     predicciones_rf_df['Prediccion'] = resultados_rf
     print("\nPredicciones del conjunto de prueba usando Random Forests:")
     print(predicciones_rf_df)
+
+
+
+    # F1 score
+    datos_prueba_subset = datos_prueba.iloc[:13] # me quedo con las primeras 13 filas
+    # Calcula las métricas de evaluación solo para líneas 1 a 13 del dataset de prueba
+    precision = precision_score(datos_prueba_subset['JugarGolf'], resultados_rf[:13], average='macro')
+    recall = recall_score(datos_prueba_subset['JugarGolf'], resultados_rf[:13], average='macro')
+    f1 = f1_score(datos_prueba_subset['JugarGolf'], resultados_rf[:13], average='macro')
+
+    # Imprime las métricas de evaluación
+    print("\nMétricas de evaluación del modelo Random Forests (solo para líneas 1 a 13 del dataset de prueba):")
+    print("Precisión:", precision)
+    print("Recall:", recall)
+    print("F1-score:", f1)
