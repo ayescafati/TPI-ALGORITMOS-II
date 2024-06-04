@@ -72,7 +72,7 @@ Random Forest es una técnica de ensamble que utiliza múltiples árboles de dec
 ### Construcción del Bosque
 
 1. **Bootstrapping**: Realizamos un muestreo con reemplazo del conjunto de datos de entrenamiento para cada árbol. Esto se implementa en el método `ajustar` de la clase `RandomForests`.
-2. **Selección Aleatoria de Características**: En cada división del árbol, consideramos un subconjunto aleatorio de características. Esta característica es inherente al uso del algoritmo C4.5 en la construcción de cada árbol en el bosque.
+2. **Selección Aleatoria de Características**: En cada división del árbol, consideramos un subconjunto aleatorio de características. Esto se implementa en el método `ajustar` de RandomForest.
 3. **Combinación de Predicciones**: Combinamos las predicciones de todos los árboles del bosque para obtener la predicción final. Esto se implementa en el método `predecir` de la clase `RandomForests`.
 
 ## Implementación
