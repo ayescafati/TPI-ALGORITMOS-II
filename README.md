@@ -4,6 +4,9 @@
 
 Este proyecto implementa un clasificador de árbol de decisión y un bosque aleatorio en Python, utilizando el algoritmo C4.5 para el árbol de decisión y una implementación simple de bosque aleatorio. El clasificador puede manejar tanto atributos continuos como discretos y proporciona predicciones para un conjunto de datos de prueba.
 
+![Descripción de la imagen](RandomForest.png)
+
+
 ## Instalación
 
 1. Cloná este repositorio en tu computadora usando Git:
